@@ -48,7 +48,7 @@ class AlienInvasion:
             lambda: entities["ship"].clear_movement(),
         )
         self.keys.add_binding(
-            pygame.K_SPACE, lambda: self.entities.append(Bullet(self))
+            pygame.K_SPACE, lambda: Bullet.spawn(self)
         )
 
     def run(self):

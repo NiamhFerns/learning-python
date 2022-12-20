@@ -11,3 +11,4 @@ class Settings:
         self.bullet_size = (4, 10)
         self.bullet_speed = 2
         self.bullet_colour = (255, 0, 0)
+        self.max_bullet_count = 3

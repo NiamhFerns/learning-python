@@ -14,6 +14,19 @@ class Bullet(IEntity):
         self.rect = pygame.Rect(0, 0, self.dimensions[0], self.dimensions[1])
         self.rect.midtop = game.entities[0].rect.midtop
 
+    def spawn(game):
+        if Bullet.bullets_available(game):
+            game.entities.append(Bullet(game))
+
+    def bullets_available(game):
+        instances = 0
+        for item in game.entities:
+            if isinstance(item, Bullet):
+                instances += 1
+                if instances == 10:
+                    return False
+        return True
+
     def update(self):
         self.rect.y -= self.speed
         if self.rect.y < 0 + self.dimensions[1]:
