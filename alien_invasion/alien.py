@@ -13,3 +13,9 @@ class Alien(IEntity):
 
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
+
+    def update(self):
+        pass
+
+    def draw(self):
+        self.screen.blit(self.texture, self.rect)

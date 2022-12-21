@@ -4,6 +4,7 @@ import pygame
 from settings import Settings
 from entity import IEntity
 from ship import Ship
+from alien import Alien
 from bullet import Bullet
 from keys import Keys
 
@@ -29,6 +30,7 @@ class AlienInvasion:
         self.entities: IEntity = []
         ship = Ship(self)
         self.entities.append(ship)
+        self.entities.append(Alien(self))
 
         self.keys = Keys()
         self.set_bindings(ship=ship)
@@ -47,9 +49,7 @@ class AlienInvasion:
             lambda: entities["ship"].move_left(),
             lambda: entities["ship"].clear_movement(),
         )
-        self.keys.add_binding(
-            pygame.K_SPACE, lambda: Bullet.spawn(self)
-        )
+        self.keys.add_binding(pygame.K_SPACE, lambda: Bullet.spawn(self))
 
     def run(self):
         """Start the main loop for the game."""

@@ -15,15 +15,17 @@ class Bullet(IEntity):
         self.rect.midtop = game.entities[0].rect.midtop
 
     def spawn(game):
+        """Spawns a bullet for a game."""
         if Bullet.bullets_available(game):
             game.entities.append(Bullet(game))
 
     def bullets_available(game):
+        """Checks whether the game can spawn a bullet on a key press."""
         instances = 0
         for item in game.entities:
             if isinstance(item, Bullet):
                 instances += 1
-                if instances == 10:
+                if instances == game.settings.max_bullet_count:
                     return False
         return True
 
