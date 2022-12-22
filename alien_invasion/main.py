@@ -1,6 +1,8 @@
 import sys
 import pygame
 
+from typing import List
+
 from settings import Settings
 from entity import IEntity
 from ship import Ship
@@ -16,7 +18,7 @@ class AlienInvasion:
         """Initialise the game and create game resources."""
         pygame.init()
 
-        self.settings = Settings()
+        self.settings: Settings = Settings()
 
         # Window and panel settings.
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -24,17 +26,25 @@ class AlienInvasion:
             self.screen.get_rect().w,
             self.screen.get_rect().h,
         )
+        # We calculate the amount an alien can move on x based on the total space taken up by
+        # an alien plus the total space taken up by the gaps inbetween the aliens.
+        self.settings.max_alien_offset = self.screen.get_rect().w - (
+            self.settings.aliens_x_count
+            * (self.settings.aliens_w + self.settings.aliens_x_gap)
+            - self.settings.aliens_x_gap  # Remove the last gap at the end because it's not needed.
+        )
+        print(f"Max alien offset {self.settings.max_alien_offset}")
         pygame.display.set_caption("Alien Invasion")
 
         # Set entities to load game with.
-        self.entities: IEntity = []
+        self.entities: List[IEntity] = []
         ship = Ship(self)
         self.entities.append(ship)
-        self.entities.append(Alien(self))
+        Alien.build_fleet(self)
 
-        self.keys = Keys()
+        self.keys: Keys = Keys()
         self.set_bindings(ship=ship)
-        ship.speed = self.settings.ship_speed
+        ship.speed: int = self.settings.ship_speed
 
     def set_bindings(self, **entities):
         """Sets all the bindings for things in the game. If binding is related to a

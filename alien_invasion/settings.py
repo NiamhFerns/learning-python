@@ -12,3 +12,11 @@ class Settings:
         self.bullet_speed = 2
         self.bullet_colour = (255, 0, 0)
         self.max_bullet_count = 3
+        self.max_alien_offset = 50
+        self.alien_speed = 1
+        self.aliens_x_count = 20
+        self.aliens_y_count = 4
+        self.aliens_x_gap = 20
+        self.aliens_y_gap = 30
+        self.aliens_w = 60
+        self.aliens_h = 53
