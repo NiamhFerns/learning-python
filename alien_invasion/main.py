@@ -33,7 +33,6 @@ class AlienInvasion:
             * (self.settings.aliens_w + self.settings.aliens_x_gap)
             - self.settings.aliens_x_gap  # Remove the last gap at the end because it's not needed.
         )
-        print(f"Max alien offset {self.settings.max_alien_offset}")
         pygame.display.set_caption("Alien Invasion")
 
         # Set entities to load game with.
