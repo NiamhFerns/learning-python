@@ -1,10 +1,11 @@
 import pygame
 
+from main import AlienInvasion
 from entity import IEntity
 
 
 class Alien(IEntity):
-    def __init__(self, game, starting_location) -> None:
+    def __init__(self, game: AlienInvasion, starting_location) -> None:
         """Create an alien and give it a starting location."""
         super().__init__()
         self.screen = game.screen
@@ -22,7 +23,7 @@ class Alien(IEntity):
         self.direction = 1
         self.speed = game.settings.alien_speed
 
-    def build_fleet(game):
+    def build_fleet(game: AlienInvasion):
         """Builds a fleet of aliens."""
         for y in range(0, game.settings.aliens_y_count):
             for x in range(0, game.settings.aliens_x_count):
