@@ -9,3 +9,6 @@ class IEntity:
 
     def draw(self):
         pass
+
+    def remove(self):
+        self.remove = True

@@ -7,10 +7,10 @@ class Settings:
         # Screen related.
         self.screen_dimension = (1200, 800)
         self.default_bg = (230, 230, 230)
-        self.ship_speed = 1
-        self.bullet_size = (4, 10)
-        self.bullet_speed = 2
-        self.bullet_colour = (255, 0, 0)
+        self.ship_speed = 2
+        self.bullet_size = (7, 15)
+        self.bullet_speed = 4
+        self.bullet_colour = (255, 0, 255)
         self.max_bullet_count = 3
         self.max_alien_offset = 50
         self.alien_speed = 1
