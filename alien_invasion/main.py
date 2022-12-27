@@ -14,6 +14,8 @@ from keys import Keys
 class AlienInvasion:
     """Overal class to manage game assets and behaviour."""
 
+    entities: List[IEntity] = []
+
     def __init__(self) -> None:
         """Initialise the game and create game resources."""
         pygame.init()
@@ -36,7 +38,6 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         # Set entities to load game with.
-        self.entities: List[IEntity] = []
         ship = Ship(self)
         self.entities.append(ship)
         Alien.build_fleet(self)
@@ -59,6 +60,17 @@ class AlienInvasion:
             lambda: entities["ship"].clear_movement(),
         )
         self.keys.add_binding(pygame.K_SPACE, lambda: Bullet.spawn(self))
+
+    @staticmethod
+    def detect_collisions():
+        """Runs a pass to detect collisions in the game and handle them."""
+        collisions = pygame.sprite.groupcollide(
+            Bullet.instances, Alien.instances, False, False
+        )
+        for bullet, aliens in collisions.items():
+            for alien in aliens:
+                Alien.remove(alien)
+            Bullet.remove(bullet)
 
     def run(self):
         """Start the main loop for the game."""
@@ -87,12 +99,13 @@ class AlienInvasion:
     def call_game_tick(self):
         """Perform all actions needed after a cycle of the game's clock."""
         self.screen.fill(self.settings.default_bg)
+        AlienInvasion.detect_collisions()
         for entity in self.entities:
             if not isinstance(entity, IEntity):
                 self.entities.remove(entity)
                 continue
-            entity.update()
             self.clear_unneeded()
+            entity.update()
             entity.draw()
 
     def clear_unneeded(self):

@@ -1,15 +1,17 @@
 import pygame
+from pygame.sprite import Sprite
 
 from entity import IEntity
 
 
-class Alien(IEntity):
+class Alien(IEntity, Sprite):
     # Static class containing all aliens currently in play.
-    instances = []
+    instances = pygame.sprite.Group()
 
     def __init__(self, game, starting_location) -> None:
         """Create an alien and give it a starting location."""
-        super().__init__()
+        IEntity.__init__(self)
+        Sprite.__init__(self)
         self.screen = game.screen
 
         self.texture = pygame.image.load("textures/alien.png")
@@ -26,21 +28,21 @@ class Alien(IEntity):
         self.speed = game.settings.alien_speed
 
     def build_fleet(game):
-        """Builds a fleet of aliens."""
+        """Builds a fleet of aliens at the start of a game/round."""
         for y in range(0, game.settings.aliens_y_count):
             for x in range(0, game.settings.aliens_x_count):
-                Alien.instances.append(
-                    Alien(
-                        game,
-                        (
-                            x * (game.settings.aliens_x_gap + game.settings.aliens_w),
-                            y * (game.settings.aliens_y_gap + game.settings.aliens_h),
-                        ),
-                    )
+                alien = Alien(
+                    game,
+                    (
+                        x * (game.settings.aliens_x_gap + game.settings.aliens_w),
+                        y * (game.settings.aliens_y_gap + game.settings.aliens_h),
+                    ),
                 )
-        [game.entities.append(alien) for alien in Alien.instances]
+                Alien.instances.add(alien)
+                game.entities.append(alien)
 
     def move_down(self):
+        """Moves the fleet of aliens down a line."""
         self.rect.y += self.rect.h + 20
 
     def update(self):
@@ -49,12 +51,12 @@ class Alien(IEntity):
         if self.rect.x >= self.max_x or self.location_x <= self.min_x:
             self.direction *= -1
             self.move_down()
-            if self.rect.y <= self.screen.h:
+            if self.rect.y + self.rect.h >= self.screen.get_rect().h:
                 self.remove = True
 
     def draw(self):
         self.screen.blit(self.texture, self.rect)
 
-    def remove(self):
+    def remove(entity):
         super().remove()
-        Alien.instances.remove(self)
+        Alien.instances.remove(entity)

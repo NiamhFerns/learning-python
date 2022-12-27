@@ -10,5 +10,5 @@ class IEntity:
     def draw(self):
         pass
 
-    def remove(self):
-        self.remove = True
+    def remove(entity):
+        entity.remove = True
