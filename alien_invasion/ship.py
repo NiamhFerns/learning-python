@@ -1,10 +1,13 @@
 import pygame
+from pygame.sprite import Sprite
 
 from entity import IEntity
 
 
-class Ship(IEntity):
+class Ship(IEntity, Sprite):
     """A class to manage the ship."""
+
+    instance = None
 
     def __init__(self, game) -> None:
         """Initialise the ship and set its starting position."""
@@ -20,6 +23,9 @@ class Ship(IEntity):
 
         # Start new ships in the bottom middle of the screen.
         self.rect.midbottom = self.screen_rect.midbottom
+
+    def take_damage(self):
+        pass
 
     def update(self):
         if (

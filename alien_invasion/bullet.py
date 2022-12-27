@@ -48,5 +48,5 @@ class Bullet(IEntity, Sprite):
 
     @staticmethod
     def remove(entity):
-        super().remove()
+        super().remove(entity)
         Bullet.instances.remove(entity)

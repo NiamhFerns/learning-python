@@ -63,5 +63,5 @@ class Alien(IEntity, Sprite):
 
     @staticmethod
     def remove(entity):
-        super().remove()
+        super().remove(entity)
         Alien.instances.remove(entity)
