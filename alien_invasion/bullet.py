@@ -46,6 +46,7 @@ class Bullet(IEntity, Sprite):
     def draw(self):
         pygame.draw.rect(self.screen, self.colour, self.rect)
 
+    @staticmethod
     def remove(entity):
         super().remove()
         Bullet.instances.remove(entity)

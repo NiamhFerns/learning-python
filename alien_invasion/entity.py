@@ -10,5 +10,6 @@ class IEntity:
     def draw(self):
         pass
 
+    @staticmethod
     def remove(entity):
         entity.remove = True

@@ -113,6 +113,8 @@ class AlienInvasion:
         for entity in self.entities:
             if entity.remove:
                 self.entities.remove(entity)
+                if not Alien.instances:
+                    Alien.build_fleet(self)
 
 
 def main():

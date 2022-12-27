@@ -2,6 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 
 from entity import IEntity
+from bullet import Bullet
 
 
 class Alien(IEntity, Sprite):
@@ -29,6 +30,9 @@ class Alien(IEntity, Sprite):
 
     def build_fleet(game):
         """Builds a fleet of aliens at the start of a game/round."""
+        for bullet in Bullet.instances:
+            Bullet.remove(bullet)
+
         for y in range(0, game.settings.aliens_y_count):
             for x in range(0, game.settings.aliens_x_count):
                 alien = Alien(
@@ -57,6 +61,7 @@ class Alien(IEntity, Sprite):
     def draw(self):
         self.screen.blit(self.texture, self.rect)
 
+    @staticmethod
     def remove(entity):
         super().remove()
         Alien.instances.remove(entity)
