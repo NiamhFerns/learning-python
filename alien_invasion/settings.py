@@ -20,3 +20,4 @@ class Settings:
         self.aliens_y_gap = 30
         self.aliens_w = 60
         self.aliens_h = 53
+        self.max_lives = 3

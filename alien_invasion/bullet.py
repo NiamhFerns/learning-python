@@ -38,6 +38,12 @@ class Bullet(IEntity, Sprite):
                     return False
         return True
 
+    def force_clear_instances():
+        """Forcibly clears instances from the game without waiting on a cycle."""
+        for instance in Bullet.instances:
+            Bullet.remove(instance)
+            Bullet.game.entities.remove(instance)
+
     def update(self):
         self.rect.y -= self.speed
         if self.rect.y < 0 + self.dimensions[1]:

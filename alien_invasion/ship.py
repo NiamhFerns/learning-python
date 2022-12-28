@@ -1,7 +1,10 @@
 import pygame
+import sys
 from pygame.sprite import Sprite
 
 from entity import IEntity
+from alien import Alien
+from bullet import Bullet
 
 
 class Ship(IEntity, Sprite):
@@ -13,6 +16,8 @@ class Ship(IEntity, Sprite):
         """Initialise the ship and set its starting position."""
         super().__init__()
         self.screen = game.screen
+        self.settings = game.settings
+        self.stats = game.stats
         self.screen_rect = game.screen.get_rect()
         self.speed = 1
         self.velocity_x = 0
@@ -25,7 +30,14 @@ class Ship(IEntity, Sprite):
         self.rect.midbottom = self.screen_rect.midbottom
 
     def take_damage(self):
-        pass
+        """This is responsible for telling the ship it's been hit and should take damage."""
+        self.stats.lives -= 1
+        Alien.force_clear_instances()
+        Bullet.force_clear_instances()
+        Alien.build_fleet(Alien.game)
+        if self.stats.lives <= 0:
+            print("You lose!")
+            sys.exit()
 
     def update(self):
         if (

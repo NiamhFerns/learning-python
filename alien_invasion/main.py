@@ -4,6 +4,7 @@ import pygame
 from typing import List
 
 from settings import Settings
+from game_stats import GameStats
 from entity import IEntity
 from ship import Ship
 from alien import Alien
@@ -21,6 +22,7 @@ class AlienInvasion:
         pygame.init()
 
         self.settings: Settings = Settings()
+        self.stats: GameStats = GameStats(self)
 
         # Window and panel settings.
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)

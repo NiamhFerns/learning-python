@@ -14,6 +14,7 @@ class Alien(IEntity, Sprite):
         IEntity.__init__(self)
         Sprite.__init__(self)
         self.screen = game.screen
+        Alien.game = game
 
         self.texture = pygame.image.load("textures/alien.png")
         self.rect = self.texture.get_rect()
@@ -44,6 +45,12 @@ class Alien(IEntity, Sprite):
                 )
                 Alien.instances.add(alien)
                 game.entities.append(alien)
+
+    def force_clear_instances():
+        """Forcibly clears instances from the game without waiting on a cycle."""
+        for instance in Alien.instances:
+            Alien.remove(instance)
+            Alien.game.entities.remove(instance)
 
     def move_down(self):
         """Moves the fleet of aliens down a line."""
