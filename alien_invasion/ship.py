@@ -19,7 +19,7 @@ class Ship(IEntity, Sprite):
         self.settings = game.settings
         self.stats = game.stats
         self.screen_rect = game.screen.get_rect()
-        self.speed = 1
+        self.speed = self.settings.ship_speed
         self.velocity_x = 0
 
         # Load the ship image and get its rect.

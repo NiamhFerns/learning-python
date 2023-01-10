@@ -10,6 +10,7 @@ from ship import Ship
 from alien import Alien
 from bullet import Bullet
 from keys import Keys
+from button import Button
 
 
 class AlienInvasion:
@@ -47,6 +48,8 @@ class AlienInvasion:
         self.keys: Keys = Keys()
         self.set_bindings(ship=Ship.instance)
         Ship.instance.speed: int = self.settings.ship_speed
+        self.stage = 0
+        self.start_button = Button(self, "Start")
 
     def set_bindings(self, **entities):
         """Sets all the bindings for things in the game. If binding is related to a
@@ -72,6 +75,7 @@ class AlienInvasion:
             for alien in aliens:
                 Alien.remove(alien)
             Bullet.remove(bullet)
+            self.stats.score()
         collision = pygame.sprite.spritecollideany(Ship.instance, Alien.instances)
         if collision:
             Ship.instance.take_damage()
@@ -80,9 +84,12 @@ class AlienInvasion:
     def run(self):
         """Start the main loop for the game."""
         while True:
-            self.find_events()
-            self.call_game_tick()
-            # THIS SHOULD ONLY BE CALLED WHEN TICK IS FINISHED.
+            if self.stage == 0:
+                self.call_menu_tick()
+            elif self.stage == 1:
+                self.find_events()
+                self.call_game_tick()
+                # THIS SHOULD ONLY BE CALLED WHEN TICK IS FINISHED.
             pygame.display.flip()
 
     def find_events(self):
@@ -98,8 +105,25 @@ class AlienInvasion:
                 self.keys.hold(event.key)
             elif event.type == pygame.KEYUP:
                 self.keys.release(event.key)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                if self.start_button.rect.collidepoint(mouse_pos):
+                    self.start_button = None
+                    self.stats.reset_stats()
+                    pygame.mouse.set_visible(False)
+                    self.stage = 1
         # Once the current keyboard state is known, apply all held keys.
         self.keys.apply_held()
+
+    def call_menu_tick(self):
+        self.start_button.draw()
+        # There should be an enum that controls what events the find_events() method handles
+        # and whether it is looking for menu events or game events. This solution works for now.
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                if self.start_button.rect.collidepoint(mouse_pos):
+                    self.stage = 1
 
     def call_game_tick(self):
         """Perform all actions needed after a cycle of the game's clock."""
